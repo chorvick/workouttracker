@@ -39,7 +39,7 @@ const workoutSchema = new Schema(
                     type: Number,
                 },
                 distance: {
-                    type: SVGAnimatedNumber,
+                    type: Number,
                 },
 
             }
