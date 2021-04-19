@@ -1,13 +1,13 @@
 //// we require the models and express 
 
-const router = require("express").Router();
-const db = require("../models/");
+const router = require('express').Router();
+const db = require('../models/');
 
 ////
 
 /// get previous workouts
 
-router.get("/api/workouts", (req, res) => {
+router.get('/api/workouts', (req, res) => {
   db.Workout.find({})
     .then(dbWorkout => {
       console.log(dbWorkout);
@@ -53,8 +53,17 @@ router.get('/api/workouts/range', (req, res) => {
   db.Workout.find({})
     .sort({ _id: -1 })
     .limit(7)
-    .then(dbWorkout)
-})
+    .then(dbWorkout => {
+
+      console.log(dbWorkout);
+      res.json(dbWorkout);
+      console.log(dbWorkout);
+
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
 
 
 
