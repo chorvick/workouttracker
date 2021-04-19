@@ -20,7 +20,7 @@ router.get("/api/workouts", (req, res) => {
 
 /// add a workout to db
 
-router.post('api/workouts', ({ body }, res) => {
+router.post('/api/workouts', ({ body }, res) => {
   db.Workout.create(body)
     .then(dbWorkout => {
       res.json(dbWorkout);
@@ -31,6 +31,30 @@ router.post('api/workouts', ({ body }, res) => {
 });
 
 
+//// put route used to update excerise by id number 
+
+router.put('/api/workouts/:id', (req, res) => {
+  db.Workout.updateOne(
+    { _id: req.params.id },
+    { $push: { exercises: req.body } }
+  )
+    .then(dbWorkout => {
+      res.json(dbWorkout);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
+/// get 7 workouts for stats page
+
+
+router.get('/api/workouts/range', (req, res) => {
+  db.Workout.find({})
+    .sort({ _id: -1 })
+    .limit(7)
+    .then(dbWorkout)
+})
 
 
 
