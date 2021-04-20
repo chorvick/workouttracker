@@ -51,25 +51,24 @@ router.put('/api/workouts/:id', (req, res) => {
     });
 });
 
-/// get 7 workouts for stats pag
+/// get 7 workouts for stats page
+
 
 router.get('/api/workouts/range', (req, res) => {
-  db.Workout.aggregate([{
-    $addFields: {
-      totalDuration: {
-        $sum: "$exercises.duration"
-      }
-    }
-  }]).limit(7).then(response => {
-    res.json({ data: response })
-  }).catch(err => {
-    console.log(err)
-    res.json({ error: err })
-  })
+  db.Workout.find({})
+    .sort({ _id: -1 })
+    .limit(7)
+    .then(dbWorkout => {
+
+      console.log(dbWorkout);
+      res.json(dbWorkout);
+      console.log(dbWorkout);
+
+    })
+    .catch(err => {
+      res.json(err);
+    });
 });
-
-
-
 
 
 
