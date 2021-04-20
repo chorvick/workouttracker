@@ -8,11 +8,16 @@ const db = require('../models/');
 /// get previous workouts
 
 router.get('/api/workouts', (req, res) => {
-  db.Workout.find({})
-    .then(dbWorkout => {
-      console.log(dbWorkout);
-      res.json(dbWorkout);
-    })
+  db.Workout.aggregate([{
+    $addFields: {
+      totalDuration: {
+        $sum: "$exercises.duration"
+      }
+    }
+  }]).then(dbWorkout => {
+    console.log(dbWorkout);
+    res.json(dbWorkout);
+  })
     .catch(err => {
       res.status(400).json(err);
     });
@@ -46,23 +51,21 @@ router.put('/api/workouts/:id', (req, res) => {
     });
 });
 
-/// get 7 workouts for stats page
-
+/// get 7 workouts for stats pag
 
 router.get('/api/workouts/range', (req, res) => {
-  db.Workout.find({})
-    .sort({ _id: -1 })
-    .limit(7)
-    .then(dbWorkout => {
-
-      console.log(dbWorkout);
-      res.json(dbWorkout);
-      console.log(dbWorkout);
-
-    })
-    .catch(err => {
-      res.json(err);
-    });
+  db.Workout.aggregate([{
+    $addFields: {
+      totalDuration: {
+        $sum: "$exercises.duration"
+      }
+    }
+  }]).limit(7).then(response => {
+    res.json({ data: response })
+  }).catch(err => {
+    console.log(err)
+    res.json({ error: err })
+  })
 });
 
 
