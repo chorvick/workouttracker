@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 
 });
 
-
+/// total duration graph not currently working but route is correct , displays page
 router.get('/stats', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/stats.html'));
 });
