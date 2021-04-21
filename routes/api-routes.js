@@ -54,29 +54,13 @@ router.put('/api/workouts/:id', (req, res) => {
 /// get 7 workouts for stats page
 
 
-// router.get('/api/workouts/range', (req, res) => {
-//   db.Workout.find({})
-//     .sort({ _id: -1 })
-//     .limit(7)
-//     .then(dbWorkout => {
-
-//       console.log(dbWorkout);
-//       res.json(dbWorkout);
-//       console.log(dbWorkout);
-
-//     })
-//     .catch(err => {
-//       res.json(err);
-//     });
-// });
-
 router.get("/api/workouts/range", (req, res) => {
-  //aggregrate function to get totalDuration and totalWeight
+
   db.Workout.aggregate([
     {
       $addFields: {
         totalDuration: { $sum: "$exercises.duration" },  /// necessary for red line on left of dashboard to display correctly
-        // totalWeight: { $sum: "$exercises.weight" }
+
       }
     }
   ])

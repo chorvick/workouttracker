@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 
 });
 
-/// total duration graph not currently working but route is correct , displays page
+/// total duration graph is now working , had to add total duration to the api/workouts/range route 
 router.get('/stats', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/stats.html'));
 });
