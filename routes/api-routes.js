@@ -5,7 +5,7 @@ const db = require('../models/');
 
 ////
 
-/// get previous workouts
+/// get previous workouts   use aggregate to add total duration 
 
 router.get('/api/workouts', (req, res) => {
   db.Workout.aggregate([{
